@@ -28,19 +28,21 @@ export default createStore({
 
     },
     updateTodo: async ({commit}, updatedTodo) => {
-      const res = await axios.put(`https://jsonplaceholder.typicode.com/todos/${updatedTodo.id}`, updatedTodo)
+      if(updatedTodo.id<200){
+        const res = await axios.put(`https://jsonplaceholder.typicode.com/todos/${updatedTodo.id}`, updatedTodo)
 
-      console.log(res.data);
+        console.log(res.data);
 
-      commit('updateTodo', res.data);
-
+        commit('updateTodo', res.data);
+      }else{
+        commit('updateTodo', updatedTodo);
+      }
     },
     filterTodos: async ( {commit}, e) => {
       const limit = parseInt(
         e.target.options[e.target.options.selectedIndex].innerText
         );
       const res =await axios.get(`https://jsonplaceholder.typicode.com/todos?_limit=${limit}`);
-      console.log(res.data);
 
       commit('setTodos', res.data);
     }
